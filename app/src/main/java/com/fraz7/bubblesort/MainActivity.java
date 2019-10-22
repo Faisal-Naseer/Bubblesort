@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private int i = 0;
     Toolbar myToolbar2;
     private boolean flag = false;
+    
+    private boolean isStart = true;
     // image resource
 
     int[] images = {R.drawable.im_1, R.drawable.im_2, R.drawable.im_3, R.drawable.im_4, R.drawable.im_5, R.drawable.im_6, R.drawable.im_7, R.drawable.im_8,
@@ -126,6 +128,9 @@ public class MainActivity extends AppCompatActivity {
         setInitialImage();
         addback();
         reset();
+        
+        
+        changeButtonState();
 
 
     }
@@ -232,4 +237,100 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    
+    
+    private OnClickListener nextBtnListener = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isStart = false;
+                changeButtonState();
+                next_bu.setEnabled(true);
+
+                if (flag = true) {
+                    if (i < resourceList.size() - 1) {
+                        i++;
+                        i = i % resourceList.size();
+                        setCurrentImage();
+
+
+                    }
+                   /* else {
+                       // next_bu.setClickable(false);
+                        next_bu.setEnabled(false);
+                        next_bu.setBackgroundResource(R.color.bu_disable);
+                    } */
+
+                }
+                flag = false;
+
+            }
+
+
+
+        };
+    
+     private OnClickListener prevBtnListener  = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if (i > 0) {
+                    isStart = false;
+                 
+                    i--;
+
+                    i = i % resourceList.size();
+                    setCurrentImage();
+                    pre_bu.setClickable(true);
+
+                }else{
+                    isStart = true;
+                    
+                }
+
+               changeButtonState();
+            }
+
+        };
+         
+     private OnClickListener resetBtnListener  = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isStart = true;
+                changeButtonState();
+                i = 0;
+                setCurrentImage();
+
+
+            }
+        };
+         
+    //it will change state for buttons
+    private void changeButtonState(){
+        if(isStart){
+            next_bu.setOnClickListener(nextBtnListener);
+            pre_bu.setOnClickListener(null);
+            reset_bu.setOnClickListener(null);
+            // change color of buttons 
+            //next_bu color full
+            //pre_bu and reset_bu greyscale 
+            // by using shape drawable
+            //do it yourself
+            
+            //TODO
+        }else{
+            next_bu.setOnClickListener(null);
+            pre_bu.setOnClickListener(prevBtnListener);
+            reset_bu.setOnClickListener(resetBtnListener);
+             // change color of buttons 
+            //next_bu greyscale
+            //pre_bu and reset_bu  color full
+            // by using shape drawable 
+             //do it yourself
+            //TODO
+        }
+    }
+    
+    
+    
 }
